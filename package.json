@@ -1,0 +1,12 @@
+{
+  "name": "firstWorkShop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start":"nodemon"
+  },
+  "keywords": [],
+  "author": "SS",
+  "license": "MIT"
+}
