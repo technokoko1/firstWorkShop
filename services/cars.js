@@ -85,11 +85,25 @@ async function getById(id){
     //vzimame 1 kola za da si vidim descriptiona po id
 }
 
+async function deleteById(id){
+    const data= await read()
+
+   
+    if(data.hasOwnProperty(id)){
+   delete data[id]
+   await write(data)
+    }else{
+       throw new Error ('No such ID in database')
+    }
+    //vzimame 1 kola za da si vidim descriptiona po id
+}
+
 module.exports=()=>(req,res,next)=>{
     req.storage={
         getAll,
         getById,
-        createCar
+        createCar,
+        deleteById
     }
     next()
 }
