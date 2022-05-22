@@ -30,11 +30,44 @@ async function write(data){
 }
 //zapisva novi danni
 
-async function getAll(){
+
+async function createCar(car){
+
+    const cars= await read()
+ let id;
+
+ do{
+     id = nextId()
+ }while(car.hasOwnProperty(id))
+
+ cars[id] = car
+ 
+ await  write(cars)
+}
+//suzdavame nova kola
+
+function nextId(){
+    return 'xxxxxxxx-xxxx'.replace(/x/g,()=>(Math.random()*16|0).toString(16))
+}
+//pravim random id za suzdadena kola
+
+async function getAll(query){
     const data = await read()
-   return Object
+  let cars= Object
     .entries(data)
     .map(([id,v])=>Object.assign({},{id},v))
+
+    if(query.search){
+        cars= cars.filter(c=>c.name.toLocaleLowerCase().includes(query.search.toLocaleLowerCase()))
+    }
+    if(query.from){
+        cars=cars.filter(c=>c.price>=Number(query.from))
+    }
+
+    if(query.to){
+        cars=cars.filter(c=>c.price<=Number(query.to))
+    }
+    return cars
     //vzimame vsichki koli za da gi slojim na nachalnata stranica
 }
 
@@ -55,7 +88,8 @@ async function getById(id){
 module.exports=()=>(req,res,next)=>{
     req.storage={
         getAll,
-        getById
+        getById,
+        createCar
     }
     next()
 }

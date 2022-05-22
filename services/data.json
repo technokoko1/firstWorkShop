@@ -1,8 +1,26 @@
 {
-    "asdads":{
-        "name": "Subaru legacy",
+    "asdads": {
+        "name": "Subaru impreza",
         "description": "fast boyyy vape much",
         "imageUrl": "https://autobild.bg/wp-content/uploads/2020/01/subaru-wrx-sti-ej20-final-edition-720x405.jpg",
-         "price":3333
+        "price": 9999
+    },
+    "cd8a04c0-bceb": {
+        "name": "ddd",
+        "description": "scizzor dors babbyy",
+        "imageUrl": "www.tuning.bg/offers/offers/offerImages/id/1197/image/2",
+        "price": 20000
+    },
+    "fadbf616-75f0": {
+        "name": "leon",
+        "description": "ssizzor dors babyy",
+        "imageUrl": "http://www.tuning.bg/public/upload/offers/1197/thumb/99545dbcc9edfafa689b93fc5e61f0819904.jpg",
+        "price": 20000
+    },
+    "ec677a42-afc7": {
+        "name": "ddda",
+        "description": "dddd",
+        "imageUrl": "dd",
+        "price": 333
     }
 }
