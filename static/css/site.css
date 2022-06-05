@@ -21,6 +21,9 @@ img.cube {
     margin: 0 auto;
     text-align: center;
 }
+.description{
+  display: none;  
+}
 
 img.logo {
     width: 80px;

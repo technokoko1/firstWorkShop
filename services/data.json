@@ -9,6 +9,12 @@
         "name": "leon",
         "description": "ssizzor dors babyy",
         "imageUrl": "http://www.tuning.bg/public/upload/offers/1197/thumb/99545dbcc9edfafa689b93fc5e61f0819904.jpg",
-        "price": 20000
+        "price": 19999
+    },
+    "26dbef6c-8e3d": {
+        "name": "Lada Niva",
+        "description": "The Lada Niva Legend,[3] formerly called the Lada Niva, VAZ-2121, VAZ-2131, and Lada 4×4 (Russian: ВАЗ-2121, ВАЗ-2131, Лада Нива), is a series of four-wheel drive, small (hatchback), and compact (wagon and pickup) off-road cars designed and produced by AvtoVAZ since 1977. Initially aimed at the rural market, later models also targeted urban users. The three- and later five-door 4×4 hatchbacks were sold under the Lada marque in many markets,[4] and have been in continuous production since 1977.",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/1987_Lada_Niva_1600.jpg/280px-1987_Lada_Niva_1600.jpg",
+        "price": 1999
     }
 }

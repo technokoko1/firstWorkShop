@@ -1,109 +1,98 @@
-const fs=require('fs/promises')
+const fs = require('fs/promises')
 const { version } = require('process')
+const Car = require('../models/Car')
+const { carViewModel } = require('./util')
 
-const filePath='./services/data.json'
-async function read(){
-    try{
 
-    
-const file=await fs.readFile(filePath)
-return JSON.parse(file)
-}catch (err){
-    console.error('Database read error')
-    console.error(err)
-    process.exit(1)
+const filePath = './services/data.json'
 
-}
-}
-//chete dannite 
 
-async function write(data){
+async function createCar(car) {
+    const result = new Car(car)
+    await result.save()
    
-    try{
-     await fs.writeFile(filePath,JSON.stringify(data))
-    }catch(err){
-        console.error('Database read error')
-        console.error(err)
-        process.exit(1)
-    
-    }
-}
-//zapisva novi danni
-
-
-async function createCar(car){
-
-    const cars= await read()
- let id;
-
- do{
-     id = nextId()
- }while(car.hasOwnProperty(id))
-
- cars[id] = car
- 
- await  write(cars)
 }
 //suzdavame nova kola
 
-function nextId(){
-    return 'xxxxxxxx-xxxx'.replace(/x/g,()=>(Math.random()*16|0).toString(16))
-}
-//pravim random id za suzdadena kola
 
-async function getAll(query){
-    const data = await read()
-  let cars= Object
-    .entries(data)
-    .map(([id,v])=>Object.assign({},{id},v))
 
-    if(query.search){
-        cars= cars.filter(c=>c.name.toLocaleLowerCase().includes(query.search.toLocaleLowerCase()))
+
+
+
+async function getAll(query) {
+    const options = {}
+
+    if (query.search) {
+        options.name = new RegExp(query.search, 'i')
     }
-    if(query.from){
-        cars=cars.filter(c=>c.price>=Number(query.from))
+    if (query.from) {
+        options.price = { $gte: Number(query.from) }
     }
 
-    if(query.to){
-        cars=cars.filter(c=>c.price<=Number(query.to))
+    if (query.to) {
+        if (!options.price) {
+            options.price = {}
+        } 
+        options.price.$lte=Number(query.to)
     }
-    return cars
+   
+
+    const cars = await Car.find(options)
+    return cars.map(carViewModel)
+ 
     //vzimame vsichki koli za da gi slojim na nachalnata stranica
+    //sushto ima i vgradeno tursene 
 }
 
-async function getById(id){
-    const data= await read()
+async function getById(id) {
 
-    const car=data[id]
-    if(car){
-
-    
-    return Object.assign({},{id},car)
-    }else{
+    const car = await Car.findById(id).populate('accessories','')
+    //populate pravi aksesuarite da sa realni danni 
+    //ne samo idta
+    if (car) {
+        return carViewModel(car)
+    } else {
         return undefined
     }
+    
     //vzimame 1 kola za da si vidim descriptiona po id
 }
 
-async function deleteById(id){
-    const data= await read()
+async function deleteById(id) {
+  await  Car.findByIdAndDelete(id)
 
-   
-    if(data.hasOwnProperty(id)){
-   delete data[id]
-   await write(data)
-    }else{
-       throw new Error ('No such ID in database')
-    }
-    //vzimame 1 kola za da si vidim descriptiona po id
+  //vzimame 1 kola i q triem po id
 }
 
-module.exports=()=>(req,res,next)=>{
-    req.storage={
+async function updateById(id, car) {
+//    await Car.findByIdAndUpdate(id,car)
+     const existing=await Car.findById(id)
+     existing.name=car.name
+     existing.description=car.description
+     existing.imageUrl=car.imageUrl ||undefined
+     existing.price=car.price
+     existing.accessories=car.accessories
+     await existing.save()
+    //vzimame 1 kola i q editvame po id
+}
+
+async function attachAccessory(carId,accessoryId){
+    const existing=await Car.findById(carId)
+
+    existing.accessories.push(accessoryId)
+
+    await existing.save()
+}
+//zakachame aksesual za kola
+
+module.exports = () => (req, res, next) => {
+    req.storage = {
         getAll,
         getById,
         createCar,
-        deleteById
+        deleteById,
+        updateById,
+        attachAccessory
     }
     next()
 }
