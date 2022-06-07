@@ -39,8 +39,8 @@ module.exports = {
 
     },
     logoutGet(req, res) {
-
-
+          req.auth.logout()
+           res.redirect('/')
     },
 
 }
