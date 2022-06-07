@@ -1,10 +1,12 @@
 const express = require('express')
 const hbs = require('express-handlebars')
+const session=require('express-session')
 
 const initDb=require('./models/index')
 
 const carsService = require('./services/cars')
 const accessoryService=require('./services/accessory')
+const authService=require('./services/auth')
 
 const { about } = require('./controllers/about')
 const create = require('./controllers/create')
@@ -15,6 +17,7 @@ const deleteCar = require('./controllers/delete')
 const edit=require('./controllers/edit')
 const accessory=require('./controllers/accessory')
 const attach=require('./controllers/attach')
+const {registerGet,registerPost,loginGet,loginPost,logoutGet}=require('./controllers/auth')
 
 const app = express()
 
@@ -31,10 +34,17 @@ app.engine('hbs', hbs.create({
 app.set('view engine', 'hbs')
 //tova go pravim za da si dobavq samo .hbs na razlichnite render viewta
 
+app.use(session({
+    secret:'my secret',
+    resave:false,
+    saveUninitialized:true,
+    cookie:{secure:'auto'}
+}))
 app.use(express.urlencoded({ extended: true }))
 app.use('/static', express.static('static'))
 app.use(carsService())
 app.use(accessoryService())
+app.use(authService())
 
 app.get('/', home)
 app.get('/about', about)
@@ -45,6 +55,9 @@ app.route('/delete/:id').get(deleteCar.get).post(deleteCar.post)
 app.route('/edit/:id').get(edit.get).post(edit.post)
 app.route('/accessory').get(accessory.get).post(accessory.post)
 app.route('/attach/:id').get(attach.get).post(attach.post)
+app.route('/register').get(registerGet).post(registerPost)
+app.route('/login').get(loginGet).post(loginPost)
+
     app.all('*', notFound)
 // * vzima vsichki adresi
 
