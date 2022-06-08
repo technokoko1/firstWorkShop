@@ -6,7 +6,8 @@ function accesssoryViewModel(accessory) {
         name: accessory.name,
         description: accessory.description,
         imageUrl: accessory.imageUrl,
-        price: accessory.price
+        price: accessory.price,
+        owner:accessory.owner
     }
     //opravqme dannite koito idvat ot mongoose da sa obekt
     //samo che tuk za aksesuarite
@@ -19,7 +20,8 @@ function carViewModel(car) {
         description: car.description,
         imageUrl: car.imageUrl,
         price: car.price,
-        accessories: car.accessories
+        accessories: car.accessories,
+        owner:car.owner
     }
     if (model.accessories.length > 0 && model.accessories[0].name) {
         //proverqvame dali ima ime za da znaem dali da go mappnem
@@ -39,9 +41,19 @@ async function comparePassword(password, hashedPassword) {
     return bcrypt.compare(password, hashedPassword)
 }
 
+ function isLoggedIn(){
+    return function(req,res,next){
+        if(req.session.user){
+            next()
+        }else{
+            res.redirect('/login')
+        }
+    }
+}
 module.exports = {
     accesssoryViewModel,
     carViewModel,
     hashPassword,
-    comparePassword
+    comparePassword,
+    isLoggedIn
 }

@@ -180,6 +180,12 @@ textarea {
     margin: 8px 0 2em;
 }
 
+h3{
+    color: white;
+    text-align: right;
+    text-transform: uppercase;
+}
+
 input.difficulty {
     width: 20%;
 }
@@ -239,6 +245,7 @@ img#sadFaceImg{
 
 h2{
     text-align: center;
+    text-transform: uppercase;
 }
 
 .accessories .accessory{

@@ -58,15 +58,24 @@ async function getById(id) {
     //vzimame 1 kola za da si vidim descriptiona po id
 }
 
-async function deleteById(id) {
+async function deleteById(id,ownerId) {
+    const existing=await Car.findById(id)
+    if(existing.owner!=ownerId){
+        return false
+    }
   await  Car.findByIdAndDelete(id)
+  return true
 
   //vzimame 1 kola i q triem po id
 }
 
-async function updateById(id, car) {
+async function updateById(id, car,ownerId) {
 //    await Car.findByIdAndUpdate(id,car)
      const existing=await Car.findById(id)
+
+     if(existing.owner!=ownerId){
+         return false
+     }
      existing.name=car.name
      existing.description=car.description
      existing.imageUrl=car.imageUrl ||undefined
@@ -74,14 +83,20 @@ async function updateById(id, car) {
      existing.accessories=car.accessories
      await existing.save()
     //vzimame 1 kola i q editvame po id
+    return true
 }
 
-async function attachAccessory(carId,accessoryId){
+async function attachAccessory(carId,accessoryId,ownerId){
     const existing=await Car.findById(carId)
+
+    if(existing.owner!=ownerId){
+        return false
+    }
 
     existing.accessories.push(accessoryId)
 
     await existing.save()
+    return true
 }
 //zakachame aksesual za kola
 
