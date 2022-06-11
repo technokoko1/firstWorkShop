@@ -6,6 +6,21 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+li h3{
+    position: relative;
+  
+    left: 600px;
+     text-decoration: none;
+    text-transform: uppercase;
+    color: white;
+    font-weight: bold;
+    margin: 0 1em;
+  }
+
+div ul p  {
+    color: #EF5542;
+    font-weight: bold;
+}
 
 header ul {
     margin: 0;
@@ -180,11 +195,7 @@ textarea {
     margin: 8px 0 2em;
 }
 
-h3{
-    color: white;
-    text-align: right;
-    text-transform: uppercase;
-}
+
 
 input.difficulty {
     width: 20%;

@@ -8,13 +8,16 @@ module.exports = {
             description: req.body.description,
             imageUrl: req.body.imageUrl || undefined,
             price: Number(req.body.price),
-            owner:req.session.user.id
+            owner: req.session.user.id
         }
         try {
             await req.storage.createCar(car)
             res.redirect('/')
-        } catch (err) {
-            res.redirect('/create')
+        } catch (errors) {
+            if (errors.name == 'ValidationError') {
+                errors=Object.values(errors.errors).map(e => ({ msg: e.message }))
+            }
+            res.render('create', { title: 'create listing', errors })
         }
 
     }

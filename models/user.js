@@ -6,6 +6,9 @@ const userSchema=new Schema({
     hashedPassword:{type:String,required:true,minlength:3}
 })
 
+
+
+
 userSchema.methods.comparePassword= async function(password){
     //polzvame bcrypt da hashirame parolata i da q sruvnim sus zapazenite
     return await comparePassword(password,this.hashedPassword)

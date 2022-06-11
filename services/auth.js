@@ -1,8 +1,9 @@
 const User=require('../models/user')
 
 async function register(session, username,password){
+  
     const user = new User({
-        username,
+       username,
         hashedPassword:password
     })
   await user.save()

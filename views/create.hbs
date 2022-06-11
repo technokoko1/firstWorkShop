@@ -2,6 +2,13 @@
     <main>
       <h1>Create</h1>
       <div class="form">
+               {{#if errors}}
+                <div>
+                {{#each errors}}
+                <ul><p>{{msg}}</p></ul>
+                {{/each}}
+            </div>
+            {{/if}}
         <form action="/create" method="POST">
           <label for="name">Name</label>
           <input type="text" id="name" name="name">
